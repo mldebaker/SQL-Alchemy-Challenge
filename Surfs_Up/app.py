@@ -33,7 +33,8 @@ app = Flask(__name__)
 # Home route
 @app.route("/")
 
-# Precipitation route
+
+# Precipitation route - http://127.0.0.1:5000/api/v1.0/precipitation
 @app.route("/api/v1.0/precipitation")
 def precipitation():
     past12mth_date = dt.date(2017, 8, 23) - dt.timedelta(days=365)
@@ -43,7 +44,26 @@ def precipitation():
     return jsonify(precip)
 
 
+# Stations route - http://127.0.0.1:5000/api/v1.0/stations
+@app.route("/api/v1.0/stations")
+def stations():
+    total_stations = session.query(func.count(Station.station)).all()
+# Dict with date as the key and prcp as the value
+    return jsonify(total_stations)
+
+
+# Temps route - http://127.0.0.1:5000/api/v1.0/tobs
+@app.route("/api/v1.0/tobs")
+def tobs():
+    past12mth_date = dt.date(2017, 8, 23) - dt.timedelta(days=365)
+    temps_12_months = session.query(Measurement.date, Measurement.station, Measurement.tobs).\
+    filter(Measurement.station=='USC00519281').\
+    filter(Measurement.date >= past12mth_date).all()
+# Dict with date as the key and prcp as the value
+    return jsonify(temps_12_months)
+
 
 # Start of app
 if __name__ == '__main__':
     app.run()
+
