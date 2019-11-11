@@ -33,6 +33,13 @@ app = Flask(__name__)
 # Home route
 @app.route("/")
 
+# Git Paths and web links
+# $ export FLASK_APP=app.py
+# $ export FLASK_DEBUG=1
+# $ python -m flask run
+#  * Running on http://127.0.0.1:5000/
+# http://127.0.0.1:5000/api/v1.0/precipitation
+
 
 # Precipitation route - http://127.0.0.1:5000/api/v1.0/precipitation
 @app.route("/api/v1.0/precipitation")
